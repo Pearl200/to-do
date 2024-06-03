@@ -5,49 +5,57 @@ let textarea = document.getElementById("textarea");
 let msg = document.getElementById("msg");
 let tasks = document.getElementById("tasks");
 let add = document.getElementById("add");
+let taskList = document.getElementById("taskList");
+
+let data = [];
+
+
 
 form.addEventListener("submit", (e) => {
   e.preventDefault();
   formValidation();
 });
+//treat onClick
+
 
 let formValidation = () => {
-  if (textInput.value === "") {
+  if (!textInput.value) {
     console.log("failure");
-    msg.innerHTML = "Task cannot be blank";
   } else {
-    console.log("success");
-    msg.innerHTML = "";
-    acceptData();
-    add.setAttribute("data-bs-dismiss", "modal");
-    add.click();
-
-    (() => {
-      add.setAttribute("data-bs-dismiss", "");
-    })();
+   acceptData()
   }
 };
 
-let data = [{}];
-
 let acceptData = () => {
-  let timestamp = new Date().toLocaleString();
-  localStorage.setItem("data", JSON.stringify(data));
+  const timestamp = new Date().toLocaleString();
+  data.push({
+    text: textInput.value,
+    timestamp: timestamp,
+    completed: false,
+  });
 
+  localStorage.setItem("data", JSON.stringify(data));
   console.log(data);
   createTasks();
 };
 
+
+
+//bug with the rendering of the taskList 
 let createTasks = () => {
   tasks.innerHTML = "";
-  data.map((x, y) => {
+  data.map((task, index) => {
     return (tasks.innerHTML += `
-    <div id=${y}>
-          <span class="fw-bold">${x.text}</span>
-          <span class="small text-secondary">${x.date}</span>
-          <p>${x.description}</p>
-  
-          <span class="options">
+    <div id=${index}>
+    <input type="checkbox" ${
+      task.completed ? "checked" : ""
+    } onClick="toggleTaskCompletion(${index})">
+    <span class="fw-bold ${task.completed ? "completed" : ""}">${
+      task.text
+    }</span>
+    <span class="small text-secondary">${task.date}</span>
+
+   <span class="options">
             <i onClick= "editTask(this)" data-bs-toggle="modal" data-bs-target="#form" class="fas fa-edit"></i>
             <i onClick ="deleteTask(this);createTasks()" class="fas fa-trash-alt"></i>
           </span>
@@ -59,10 +67,11 @@ let createTasks = () => {
 };
 
 let deleteTask = (e) => {
-  e.parentElement.parentElement.remove();
-  data.splice(e.parentElement.parentElement.id, 1);
+  const taskId = e.parentElement.parentElement.id;
+  data.splice(taskId, 1);
   localStorage.setItem("data", JSON.stringify(data));
   console.log(data);
+  createTasks();
 };
 
 let editTask = (e) => {
@@ -86,3 +95,12 @@ let resetForm = () => {
   console.log(data);
   createTasks();
 })();
+
+function append(ul, data) {
+  try {
+    ul.appendChild(document.createElement("li")).innerHTML = data;
+  } catch {
+    console.error(e);
+    console.log("error");
+  }
+}
