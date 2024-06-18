@@ -9,35 +9,25 @@
 
   <body>
     <div class="app">
-      <h1>TODO App</h1>
+      <h1>Todo app</h1>
 
-      <div id="addNew" data-bs-toggle="modal" data-bs-target="#form">
-      </div>
-
+  
       <!-- Modal -->
-      <form
-        class="modal fade"
-        id="form"
-        tabindex="-1"
-        aria-labelledby="exampleModalLabel"
-        aria-hidden="true"
-      >
+      <form id="form">
          <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
               <div class = "box">
-            <input id= "textInput" type="", placeholder="Add Task">
+            <input id= "textInput" type="", placeholder="Task name">
             <!-- <iconify-icon icon="fa6-solid:clock" width="32" height="32"></iconify-icon> -->
              <button type="submit" id="add" class="btn btn-primary">
               Add
-            </button>
-            <div id = "tasks">
-        
-
-              Tasks</div>
+            </button> 
+         
 
             </div>
           </div>
+          <div id = "tasks">Tasks</div>
           <!--   <div class="modal-body">
               <input type="text" class="form-control" name="" id="textInput" />
             -->   <div id="msg"></div>

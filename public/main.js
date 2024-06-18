@@ -9,20 +9,17 @@ let taskList = document.getElementById("taskList");
 
 let data = [];
 
-
-
 form.addEventListener("submit", (e) => {
   e.preventDefault();
   formValidation();
 });
 //treat onClick
 
-
 let formValidation = () => {
   if (!textInput.value) {
     console.log("failure");
   } else {
-   acceptData()
+    acceptData();
   }
 };
 
@@ -39,55 +36,53 @@ let acceptData = () => {
   createTasks();
 };
 
-
-
-//bug with the rendering of the taskList 
+//bug with the rendering of the taskList
 let createTasks = () => {
+  if (!data) return;
   tasks.innerHTML = "";
   data.map((task, index) => {
     return (tasks.innerHTML += `
-    <div id=${index}>
-    <input type="checkbox" ${
-      task.completed ? "checked" : ""
-    } onClick="toggleTaskCompletion(${index})">
-    <span class="fw-bold ${task.completed ? "completed" : ""}">${
-      task.text
-    }</span>
-    <span class="small text-secondary">${task.date}</span>
+    <div class="item" id=${index}>
+       <div class= "flex-row" id="leftSide"> 
+       <input type="checkbox" id="checkbox" ${
+        task.completed ? "checked" : ""
+      } onClick="toggleTaskCompletion(${index})" >
+      <p>${task.text}</p>
+       </div>
+       <div class= "flex-row" id="rightSide">
+       <span class="small text-secondary">${`11.55pm`}</span>
 
-   <span class="options">
-            <i onClick= "editTask(this)" data-bs-toggle="modal" data-bs-target="#form" class="fas fa-edit"></i>
-            <i onClick ="deleteTask(this);createTasks()" class="fas fa-trash-alt"></i>
-          </span>
-        </div>
+       <button type="button" onclick="deleteTask(this)" > 
+         <iconify-icon icon="arcticons:trashcan" width="24" height="24" ></iconify-icon>
+       </button>
+       </div>
+       
+     
+      </div>
     `);
   });
 
   resetForm();
 };
 
-let deleteTask = (e) => {
-  const taskId = e.parentElement.parentElement.id;
-  data.splice(taskId, 1);
+function deleteTask(e) {
+  const task_Id = e.parentElement.parentElement.id;
+  data.splice(task_Id, 1);
   localStorage.setItem("data", JSON.stringify(data));
   console.log(data);
   createTasks();
-};
+}
 
-let editTask = (e) => {
+/* let editTask = (e) => {
   let selectedTask = e.parentElement.parentElement;
 
   textInput.value = selectedTask.children[0].innerHTML;
-  dateInput.value = selectedTask.children[1].innerHTML;
-  textarea.value = selectedTask.children[2].innerHTML;
+  textarea.value = selectedTask.children[1].innerHTML;
 
-  deleteTask(e);
-};
+}; */
 
 let resetForm = () => {
-  textInput.value = "";
-  dateInput.value = "";
-  textarea.value = "";
+  document.getElementById("form").reset();
 };
 
 (() => {
