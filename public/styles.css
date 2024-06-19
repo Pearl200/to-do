@@ -7,6 +7,7 @@ body {
   justify-content: center;
   align-items: center;
   height: 100vh;
+  width: 900px;
 }
 
 .app {
@@ -17,6 +18,10 @@ body {
   border-radius: 8px;
   padding: 15px;
   overflow-y: scroll;
+  
+  
+
+  
 }
 
 .app::-webkit-scrollbar {
@@ -30,20 +35,22 @@ button{
   background-color: black;
   border-radius: 10px;
   font-size: larger;
-  margin-right: 5px;
+  margin-right: 10px;
   padding-top: 5px;
   position: relative;
   margin-top: 5px;
   border: 0;
   color: white;
+  padding-right: 10px;
 }
 
 input::placeholder{
   color: rgb(104, 104, 104);
 }
+
 input#textInput{
   height:40px;
-  width: 600px;
+  width: 500px;
   border-radius: 10px;
   padding-top: 10px;
   font-size: larger;
@@ -55,47 +62,13 @@ input#textInput{
   height: 40px;
   border-radius: rounded;
   background-color: transparent;
+  font-family:'Times New Roman', Times, serif
+
 }
 
-/* #addNew {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background-color: rgba(171, 206, 161, 0.35);
-  padding: 5px 10px;
-  border-radius: 5px;
-  cursor: pointer;
-} */
 
-.fa-plus {
-  background-color: white;
-  padding: 3px;
-  border-radius: 3px;
-}
 
-#tasks {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 14px;
-}
-
-/* #tasks div {
-  border: 10px solid gray;
-  background-color: white;
-  border-radius: 6px;
-  padding: 5px;
-  display: grid;
-  gap: 4px;
-  border-color: black;
-  border-width: 5px;
-  height: 50%;
-} */
  
-#tasks div .options {
-  justify-self: center;
-  display: flex;
-  gap: 10px;
-}
 
 #tasks div .options i {
   cursor: pointer;
@@ -117,9 +90,12 @@ a:hover {
 
 h1{
   font-size: xx-large;
-  background:-webkit-linear-gradient(0deg, rgb(245, 13, 52),  blue, indigo, blue);
+  background:-webkit-linear-gradient(0deg, rgb(245, 13, 52), blue, indigo, blue, blue);
   background-clip: text;
   -webkit-text-fill-color: transparent;
+  padding-bottom: 35px;
+  padding-top: 15px;
+  margin-left: 10px;
 }
 
 
@@ -134,22 +110,22 @@ h1{
   height: fit-content;
   background-color: rgb(58, 57, 57);
   flex-direction: row;
-  border-radius: rounded ;
+  border-radius: 10px;
   border-radius: 10px;
    display: flex;
    padding-left: 5px;
    margin-bottom: 20px;
 
 }
-input::checked{
-  background-color: red;
-}
+
+
 iconify-icon {
   display: inline-block;
   padding-right: 5px;
   padding-left: 5px;
   padding-top: 5px ;
   margin-bottom: 5px;
+  color: red;
  
 }
 
@@ -157,11 +133,12 @@ ul{
   padding-top: 10px;
   color: white;
 }
+
 li{
   padding-right: 5px;
   justify-content: start;
   color:white ;
-
+font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
 }
 
 
@@ -176,7 +153,11 @@ p{
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+
 }
+
+
 
 
 div#leftside{
@@ -189,4 +170,14 @@ div#leftside{
   flex-direction: row;
   gap: 10px;
 
+}
+
+input[type="checkbox"]{
+  width:1.5em;
+  height: 1.5rem;
+  accent-color:rgb(116, 207, 116);
+  margin-top:15px;
+  gap:10px;
+  border-radius: 50%;
+  border-color: green;
 }
