@@ -1,16 +1,9 @@
 document.addEventListener("DOMContentLoaded", (event) => {
   let form = document.getElementById("form");
   let textInput = document.getElementById("textInput");
-  let dateInput = document.getElementById("dateInput");
-  let textarea = document.getElementById("textarea");
-  let msg = document.getElementById("msg");
   let tasks = document.getElementById("tasks");
-  let add = document.getElementById("add");
-  let taskList = document.getElementById("taskList");
-  let paragraph = document.getElementById("edit");
-  let save = document.getElementById("save");
 
-  let data = [];
+  let data = JSON.parse(localStorage.getItem("data")) || [];
 
   let resetForm = () => {
     document.getElementById("form").reset();
@@ -20,69 +13,50 @@ document.addEventListener("DOMContentLoaded", (event) => {
     if (!data) return;
     tasks.innerHTML = "";
     data.map((task, index) => {
-      return (tasks.innerHTML += `
-    <div class="item" id=${index}>
-       <div class= "flex-row" id="leftSide"> 
-       <input type="checkbox" class="custom-checkbox" id="checkbox" ${
-         task.completed ? "checked" : ""
-       } onClick="toggleTaskCompletion(${index})" >
-      <p>${task.text}</p>
-       </div>
-       <div class= "flex-row" id="rightSide">
-       <span class="small text-secondary">${`11.55pm`}</span>
-       <span class="editBtn" index="${index}">
-      <button type="button" > 
-       <iconify-icon icon="akar-icons:edit" width="1.2em" height="1.2em"></iconify-icon>
-     </button>
-     </span>
-       <button type="button"  class ="deleteBtn"   > 
-         <iconify-icon icon="arcticons:trashcan" width="24" height="24" ></iconify-icon>
-       </button>
-       </div>
-      </div>
-    `);
+      tasks.innerHTML += `
+        <div class="item" id=${index}>
+          <div class="flex-row" id="leftSide">
+            <input type="checkbox" class="custom-checkbox" ${task.completed ? "checked" : ""} onClick="toggleTaskCompletion(${index})">
+            <p>${task.text}</p>
+          </div>
+          <div class="flex-row" id="rightSide">
+            <span class="small text-secondary">${task.timestamp}</span>
+            <button type="button" class="editBtn" data-index="${index}">
+              <iconify-icon icon="akar-icons:edit" width="1.2em" height="1.2em"></iconify-icon>
+            </button>
+            <button type="button" class="deleteBtn" data-index="${index}">
+              <iconify-icon icon="arcticons:trashcan" width="24" height="24"></iconify-icon>
+            </button>
+          </div>
+        </div>
+      `;
     });
 
-    // function deleteTask(e) {
-    //   const task_Id = e.parentElement.parentElement.id;
-    //   data.splice(task_Id, 1);
-    //   localStorage.setItem("data", JSON.stringify(data));
-    //   console.log(data);
-    //   createTasks();
-    // }
-
-    // add a class to the delete button
-    // add event listeners to all delete buttons just like the edit buttons
-    // make sure it works
-
-    if (data.length > 0) {
-      let deleteBtns = document.querySelectorAll(".deleteBtn");
-
-      deleteBtns.forEach((element) => {
-        element.addEventListener("click", (event) =>{
-        
-        } );
+    // Add event listeners to delete buttons
+    let deleteBtns = document.querySelectorAll(".deleteBtn");
+    deleteBtns.forEach((element) => {
+      element.addEventListener("click", (event) => {
+        let clickIndex = element.getAttribute("data-index");
+        data = data.filter((item, index) => index !== parseInt(clickIndex));
+        localStorage.setItem("data", JSON.stringify(data));
+        createTasks();
       });
-    }
+    });
 
-    if (data.length > 0) {
-      let editBtns = document.querySelectorAll(".editBtn");
-
-      editBtns.forEach((element)=> {
-        element.addEventListener("click", (event) => {
-          console.log(element.attributes.value.index);
-          window.prompt("Edit your task ");
-        });
+    // Add event listeners to edit buttons
+    let editBtns = document.querySelectorAll(".editBtn");
+    editBtns.forEach((element) => {
+      element.addEventListener("click", (event) => {
+        let clickIndex = element.getAttribute("data-index");
+        let newValue = window.prompt("Edit your task:", data[clickIndex].text);
+        if (newValue !== null && newValue.trim() !== "") {
+          data[clickIndex].text = newValue;
+          localStorage.setItem("data", JSON.stringify(data));
+          createTasks();
+        }
       });
-    }
-
-    resetForm();
+    });
   };
-
-  (() => {
-    data = JSON.parse(localStorage.getItem("data")) || [];
-    createTasks();
-  })();
 
   form.addEventListener("submit", (e) => {
     e.preventDefault();
@@ -104,18 +78,17 @@ document.addEventListener("DOMContentLoaded", (event) => {
       timestamp: timestamp,
       completed: false,
     });
-
     localStorage.setItem("data", JSON.stringify(data));
-    // console.log(data);
     createTasks();
+    resetForm();
   };
 
-  function append(ul, data) {
-    try {
-      ul.appendChild(document.createElement("li")).innerHTML = data;
-    } catch {
-      console.error(e);
-      console.log("error");
-    }
-  }
+  createTasks();
 });
+
+function toggleTaskCompletion(index) {
+  let data = JSON.parse(localStorage.getItem("data")) || [];
+  data[index].completed = !data[index].completed;
+  localStorage.setItem("data", JSON.stringify(data));
+  createTasks();
+}
